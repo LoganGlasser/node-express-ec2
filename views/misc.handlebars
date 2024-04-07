@@ -1,0 +1,94 @@
+<div class="top-bar">
+    <div class="date">
+        <h1>Miscellaneous</h1>
+    </div>
+    <div class = "selectButtons">
+        <div class = "all-select">
+            <button id ="allButton">All Drawings</button>
+        </div>
+        <div class ="date-select">
+        <button id ="dateButton">Filter by Inktober</button>
+            <div id="dateDropdown" class ="dropdownContent">
+
+            </div>
+        </div>
+        <div class ="person-select">
+            <button id ="personButton">Filter by Person</button>
+                <div id="personDropdown" class ="dropdownContent">
+
+                </div>
+        </div>
+        <div class = "misc-select">
+            <button id = "miscButton">Miscellaneous drawings</button>
+        </div>
+        <div class = "DYOA-select">
+            <button id = "DYOAButton">All DYOA Drawings</button>
+        </div>
+    </div>
+</div>
+
+<div class="title">
+    <p class = "index">{{currentIndex}}/{{dataLength}}</p>
+</div>
+
+<div class ="left-button">
+    <button class="arrow" id="left-button"><i class="fa-solid fa-arrow-left"></i> </button>
+</div>
+
+<div class ="right-button">
+    <button class="arrow" id="right-button"><i class="fa-solid fa-arrow-right"></i> </button>
+</div>
+<div class="image-container">
+    <img src ="{{item.url}}" alt="IMAGE DIDNT LOAD DAG NABBIT" class="image">
+</div>
+
+<div class ="author">
+    <p>By {{item.author}}</p>
+</div>
+
+<div class="caption">
+    <p>{{item.caption}}</p>
+</div>
+<div class = "personDate">
+    <p>{{item.date}}</p>
+</div>
+<script src="../js/person.js"></script>
+
+
+<button id="create-post-button"><i class="fa-solid fa-plus"></i></button>
+
+<div id="backdrop" class="hidden"></div>
+<div id="post-form" class="hidden">
+    <div class = "create-post-header">
+        <h2>Enter a Post</h2>
+    </div>
+    
+    <form>
+        <div class = "user-input">
+            <div  class="input-section">
+                <label for="date">Date (format MM.DD.YYYY Ex: "10.08.2023"):</label>
+                <input type="text" id="date" name="date" required><br>
+            </div>
+            <div  class="input-section">
+                <label for="title">Inktober prompt (write "MISC", if not an inktober):</label>
+                <input type="text" id="title" name="title" required><br>
+            </div>
+            <div  class="input-section">
+                <label for="url">imgur URL (right click copy image address):</label>
+                <input type="text" id="url" name="url" required><br>
+            </div>
+            <div  class="input-section">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required><br>
+            </div>
+            <div  class="input-section">
+                <label for="caption">Caption (if there is one):</label>
+                <input type="text" id="caption" name="caption"><br>
+            </div>
+        </div>
+        <div class = "post-buttons">
+            <button id="submit">Submit</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </form>
+</div>

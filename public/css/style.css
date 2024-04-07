@@ -1,0 +1,197 @@
+.top-bar {
+    display: flex;
+    background-color: black;
+    align-items: center;
+    padding: 10px;
+}
+
+.date-select {
+    width: auto;
+    height: auto;
+}
+
+.date-arrow {
+    height: 8vh;
+    width: 8vh;
+    /*size: 150%;*/
+    background-color: rgb(117, 117, 117);
+    border-radius: 50%;
+    border: 2px solid white;
+    color: gold;
+    /*border: none;*/
+    font-size: 5vh;
+    cursor: pointer;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    max-height: 200px; /* Set the maximum height to limit visible options */
+    overflow-y: auto; /* Enable vertical scrolling */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdownContent a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdownContent a:hover {
+    background-color: #f1f1f1;
+}
+
+.date {         /*MAKE THIS TEXT SHINY LATER*/
+
+    flex: 1;
+    text-align: center;
+    color: gold;
+}
+
+.arrow {
+    height: 10vh;
+    width: 10vh;
+    size: 200%;
+    background-color: darkgray;
+    border-radius: 50%;
+    border: 2px solid black;
+    color: white;
+    /*border: none;*/
+    font-size: 7vh;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.title-title  { /*this is fucked up*/
+    margin: 0;
+    color: gold;
+    text-align: center;
+
+}
+.index {
+    text-align: right;
+    color: white;
+    font-size: 3vw;
+    margin: 0;
+}
+
+.image-container {
+    text-align: center;
+}
+
+
+#create-post-button {
+    height: 10vh;
+    width: 10vh;
+    size: 200%;
+    background-color: red;
+    border-radius: 90%;
+    border: 3px solid black;
+    color: white;
+    /*border: none;*/
+    font-size: 7vh;
+    cursor: pointer;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
+.image {    /*GO HERE IF STUFF GETS DISTORTED*/
+    min-height: 30vh; 
+    max-height: 60vh;
+    min-width: 30vh; 
+    max-width: 70vh;
+    
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+.right-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+}
+.left-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+}
+
+.author {
+    text-align: center;
+}
+
+.caption {
+    text-align: center;
+    margin: 0 auto;
+    width: 70%;
+
+}
+
+.personDate {
+    text-align: center;
+}
+
+body {
+    background-color: darkgray;
+    color: white;
+}
+
+.hidden {
+    display:none;
+}
+
+#backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+
+#post-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 60vh;
+    width: 100vh;
+    background: #fff;
+    color: black;
+    z-index: 1010;
+}
+
+.user-input {
+    padding: 10px;
+}
+
+.input-section {
+    width: auto;
+    display: block;
+    height: 7vh;
+}
+
+.input-section input[type="text"] {
+    border: 1px solid #ccc; /* Add a 1px solid border with a light gray color */
+  }
+
+.post-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10vh;
+    
+}
+
+.create-post-header {
+    position: relative;
+    padding: 10px 15px;
+}
