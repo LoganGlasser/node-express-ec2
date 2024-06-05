@@ -77,13 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {   //makign sure all of the
         window.location.href = newURL;
     })
 
-    document.getElementById("DYOABButton").addEventListener("click", function() {
-        const baseURL = window.location.protocol + '//' + window.location.host;
-    
-        // Construct the new URL based on the current base URL and the person's name
-        const newURL = `${baseURL}/dyoab`;
-        window.location.href = newURL;
-    })
 
     document.getElementById("left-date").addEventListener("click", function() {
         navigateToAdjacentDate(-1); // -1 for the previous date

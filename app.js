@@ -25,12 +25,98 @@ function updateData() {
   data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
 }
 
-let currentIndex = 0;
+//let currentIndex = 0;
 let currentLength = 1;
 let firstTime = 10;
 
-console.log("currentIndex is", currentIndex);
-app.get('/', (req, res) => {
+app.get('/misc/:index?', (req, res) => {
+  console.log('Accessing /misc/:index? route with index:', req.params.index);
+  if (!req.params.index) {
+    res.redirect('/misc/0');
+    return;
+  }
+  updateData();
+  const filteredData = data.filter(item => item.title === 'MISC');
+  currentLength = filteredData.length;
+  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  let currentIndex = parseInt(req.params.index, 10);
+  if (isNaN(currentIndex) || currentIndex < 0) {
+    res.redirect(`/misc/${filteredData.length-1}`)
+  }
+  if (currentIndex >= filteredData.length) {
+    res.redirect('/misc/0')
+  }
+
+  const item = filteredData[currentIndex];
+  item.title = item.title.toUpperCase();
+  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
+  res.render('misc', {
+      item,
+      currentIndex: (currentIndex+1),
+      dataLength: filteredData.length,
+  });
+});
+
+app.get('/dyoa/:index?', (req, res) => {
+  if (!req.params.index) {
+    res.redirect('/dyoa/0');
+    return;
+  }
+  updateData();
+  const filteredData = data.filter(item => item.title === 'DYOA' || item.title === 'DYOAB');
+  currentLength = filteredData.length;
+  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  let currentIndex = parseInt(req.params.index, 10);
+  if (isNaN(currentIndex) || currentIndex < 0) {
+    res.redirect(`/dyoa/${filteredData.length-1}`)
+  }
+  if (currentIndex >= filteredData.length) {
+    res.redirect('/dyoa/0')
+  }
+  const item = filteredData[currentIndex];
+  item.title = item.title.toUpperCase();
+  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
+  res.render('dyoa', {
+    item,
+    currentIndex: (currentIndex+1),
+    dataLength: filteredData.length,
+  });
+});
+
+app.get('/dyoab/:index?', (req, res) => {
+      if (!req.params.index) {
+      res.redirect('/dyoab/0');
+      return;
+    }
+  updateData();
+  const filteredData = data.filter(item => item.title === 'DYOAB');
+  currentLength = filteredData.length;
+  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  let currentIndex = parseInt(req.params.index, 10);
+  if (isNaN(currentIndex) || currentIndex < 0) {
+    res.redirect(`/dyoab/${filteredData.length-1}`)
+  }
+  if (currentIndex >= filteredData.length) {
+    res.redirect('/dyoab/0')
+  }
+  const item = filteredData[currentIndex];
+  item.title = item.title.toUpperCase();
+  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
+  res.render('dyoab', {
+    item,
+    currentIndex: (currentIndex+1),
+    dataLength: filteredData.length,
+  });
+});
+
+
+
+//console.log("currentIndex is", currentIndex);
+app.get('/:index?', (req, res) => {
+    if (!req.params.index) {
+      res.redirect('/0');
+      return;
+    }
     // Retrieve all data
     updateData();
     const filteredData = data.slice(); // Create a shallow copy of the data array
@@ -39,29 +125,29 @@ app.get('/', (req, res) => {
     filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
     console.log(filteredData.date);
     // Handle currentIndex and firstTime
-    if (firstTime !== 6) {
-      currentIndex = 0;
-      firstTime = 6;
-    }
-    if (currentIndex < 0) {
-      currentIndex = filteredData.length - 1;
+    let currentIndex = parseInt(req.params.index, 10);
+    if (isNaN(currentIndex) || currentIndex < 0) {
+      res.redirect(`/${filteredData.length - 1}`)
     }
     if (currentIndex >= filteredData.length) {
-      currentIndex = 0;
+      res.redirect('/0')
     }
   
-    const currentIndexPlusOne = currentIndex + 1;
     const item = filteredData[currentIndex];
     item.title = item.title.toUpperCase();
   
     res.render('all', {
       item,
-      currentIndex: currentIndexPlusOne,
+      currentIndex: (currentIndex+1),
       dataLength: filteredData.length,
     });
 });
 
-app.get('/date/:date', (req, res) => {
+app.get('/date/:date/:index?', (req, res) => {
+  if (!req.params.index) {
+    res.redirect(`/date/${req.params.date}/0`);
+    return;
+  }
   updateData();
   const desiredDate = req.params.date; //get the desired date and hold it in desiredDate
   const filteredData = data.filter(item => item.date === desiredDate);
@@ -72,27 +158,27 @@ app.get('/date/:date', (req, res) => {
     return; // Exit the function early
   }
   currentLength = filteredData.length;
-  if(firstTime != 1) {
-    currentIndex = 0;
+  let currentIndex = parseInt(req.params.index, 10);
+  if (isNaN(currentIndex) || currentIndex < 0) {
+    res.redirect(`/date/${desiredDate}/${filteredData.length-1}`)
   }
-  if(currentIndex < 0) {
-    currentIndex = filteredData.length-1;
+  if (currentIndex >= filteredData.length) {
+    res.redirect(`/date/${desiredDate}/0`)
   }
-  if(currentIndex >= filteredData.length) {
-    currentIndex = 0;
-  }
-  firstTime = 1;
-  const currentIndexPlusOne = currentIndex + 1;
   const item = filteredData[currentIndex];
   item.title = item.title.toUpperCase();
   res.render('date', {
     item,
-    currentIndex: currentIndexPlusOne,
+    currentIndex: (currentIndex+1),
     dataLength: filteredData.length,
   });
 });
 
-app.get('/person/:person', (req, res) => {
+app.get('/person/:person/:index?', (req, res) => {
+  if (!req.params.index) {
+    res.redirect(`/person/${req.params.person}/0`);
+    return;
+  }
   updateData();
   const desiredPerson = req.params.person; //get the desired person and hold it in desiredPerson
   const filteredData = data.filter(item => item.author === desiredPerson);
@@ -101,110 +187,32 @@ app.get('/person/:person', (req, res) => {
   filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
   
   currentLength = filteredData.length;
-  if(firstTime != 2) {
-    currentIndex = 0;
+  let currentIndex = parseInt(req.params.index, 10);
+  if (isNaN(currentIndex) || currentIndex < 0) {
+    res.redirect(`/person/${desiredPerson}/${filteredData.length-1}`)
   }
-  if(currentIndex < 0) {
-    currentIndex = filteredData.length-1;
+  if (currentIndex >= filteredData.length) {
+    res.redirect(`/person/${desiredPerson}/0`)
   }
-  if(currentIndex >= filteredData.length) {
-    currentIndex = 0;
-  }
-  firstTime = 2;
-  const currentIndexPlusOne = currentIndex + 1;
   const item = filteredData[currentIndex];
   item.title = item.title.toUpperCase();
   res.render('person', {
     item,
-    currentIndex: currentIndexPlusOne,
+    currentIndex: (currentIndex+1),
     dataLength: filteredData.length,
   });
 });
 
-app.get('/misc', (req, res) => {
-  updateData();
-  const filteredData = data.filter(item => item.title === 'MISC');
-  currentLength = filteredData.length;
-  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-  if(firstTime != 3) {
-    currentIndex = 0;
-  }
-  if(currentIndex < 0) {
-    currentIndex = filteredData.length-1;
-  }
-  if(currentIndex >= filteredData.length) {
-    currentIndex = 0;
-  }
-  firstTime = 3;
-  const currentIndexPlusOne = currentIndex + 1;
-  const item = filteredData[currentIndex];
-  item.title = item.title.toUpperCase();
-  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
-  res.render('misc', {
-    item,
-    currentIndex: currentIndexPlusOne,
-    dataLength: filteredData.length,
-  });
-});
 
-app.get('/dyoa', (req, res) => {
-  updateData();
-  const filteredData = data.filter(item => item.title === 'DYOA' || item.title === 'DYOAB');
-  currentLength = filteredData.length;
-  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-  if(firstTime != 4) {
-    currentIndex = 0;
-  }
-  if(currentIndex < 0) {
-    currentIndex = filteredData.length-1;
-  }
-  if(currentIndex >= filteredData.length) {
-    currentIndex = 0;
-  }
-  firstTime = 4;
-  const currentIndexPlusOne = currentIndex + 1;
-  const item = filteredData[currentIndex];
-  item.title = item.title.toUpperCase();
-  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
-  res.render('dyoa', {
-    item,
-    currentIndex: currentIndexPlusOne,
-    dataLength: filteredData.length,
-  });
-});
 
-app.get('/dyoab', (req, res) => {
-  updateData();
-  const filteredData = data.filter(item => item.title === 'DYOAB');
-  currentLength = filteredData.length;
-  filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-  if(firstTime != 5) {
-    currentIndex = 0;
-  }
-  if(currentIndex < 0) {
-    currentIndex = filteredData.length-1;
-  }
-  if(currentIndex >= filteredData.length) {
-    currentIndex = 0;
-  }
-  firstTime = 5;
-  const currentIndexPlusOne = currentIndex + 1;
-  const item = filteredData[currentIndex];
-  item.title = item.title.toUpperCase();
-  //console.log("currentIndex is ", currentIndex, ", filteredData[currentIndex].caption is ", filteredData[currentIndex].caption);
-  res.render('dyoab', {
-    item,
-    currentIndex: currentIndexPlusOne,
-    dataLength: filteredData.length,
-  });
-});
 
 
 // Handle left button click
-app.get('/left-button', (req, res) => {   
+app.get('/left-button/:index', (req, res) => {   
+  let currentIndex = parseInt(req.params.index, 10);
   currentIndex = currentIndex - 1;
-  res.send('Left button clicked!');
-  
+  //res.redirect('/' + currentIndex);
+  window.location.href = '/' + currentIndex
 });
 
 // Handle right button click

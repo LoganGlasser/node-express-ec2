@@ -104,31 +104,56 @@ document.addEventListener('DOMContentLoaded', () => {   //makign sure all of the
     }
     
     document.getElementById("right-button").addEventListener("click", function() {
-        // When the right button is clicked, make a GET request to /right-button
+        // Get the current URL
+        const currentUrl = window.location.pathname;
 
-        fetch("/right-button")
-            .then(data => {
-                // Handle the response data if needed
-                window.location.reload()
-                console.log(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+        // Split the URL path on '/'
+        const parts = currentUrl.split('/');
+
+        // Extract the last part which should be the index
+        let currentIndex = parseInt(parts.pop());
+
+        // Handle different URL formats
+        if (isNaN(currentIndex)) {
+            // If the last part is not a number, it might be the :person part
+            currentIndex = parseInt(parts.pop());
+        }
+
+        // Subtract 1 from the currentIndex
+        currentIndex++;
+
+        // Reconstruct the URL
+        const newUrl = parts.join('/') + '/' + currentIndex;
+
+        // Navigate to the new URL
+        window.location.href = newUrl;
             
     });
 
     document.getElementById("left-button").addEventListener("click", function() {
-        // When the left button is clicked, make a GET request to /left-button
-        fetch("/left-button")
-            .then(data => {
-                // Handle the response data if needed
-                window.location.reload()
-                console.log(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+        // Get the current URL
+        const currentUrl = window.location.pathname;
+
+        // Split the URL path on '/'
+        const parts = currentUrl.split('/');
+
+        // Extract the last part which should be the index
+        let currentIndex = parseInt(parts.pop());
+
+        // Handle different URL formats
+        if (isNaN(currentIndex)) {
+            // If the last part is not a number, it might be the :person part
+            currentIndex = parseInt(parts.pop());
+        }
+
+        // Subtract 1 from the currentIndex
+        currentIndex--;
+
+        // Reconstruct the URL
+        const newUrl = parts.join('/') + '/' + currentIndex;
+
+        // Navigate to the new URL
+        window.location.href = newUrl;
             
     });
 
